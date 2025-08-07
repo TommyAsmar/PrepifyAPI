@@ -1,61 +1,166 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# 🥗 Prepify API
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+**Prepify** is a Laravel RESTful API for managing users, meal plans, recipes, ingredients, and meal entries. It includes authentication, authorization, and an admin dashboard built using Filament.
 
-## About Laravel
+---
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## 🚀 Features
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+-   ✅ User authentication via Laravel Sanctum
+-   ✅ CRUD for:
+    -   Meal Plans
+    -   Recipes (with ingredients)
+    -   Ingredients
+    -   Meal Entries
+-   ✅ Public access to view content
+-   ✅ Protected routes for user-specific actions (create/update/delete)
+-   ✅ Filament admin dashboard
+-   ✅ Database seeding & testing with Postman
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+---
 
-## Learning Laravel
+## 🧑‍💻 Tech Stack
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+-   Laravel 10
+-   PHP 8+
+-   Sanctum (for API auth)
+-   Filament (admin UI)
+-   SQLite or MySQL
+-   Postman
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+---
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## 📂 Project Structure
 
-## Laravel Sponsors
+prepify-api/
+├── app/
+│ └── Http/Controllers/
+│ └── Models/
+│ └── Filament/Resources/
+├── database/
+│ └── migrations/
+│ └── factories/
+│ └── seeders/
+├── docs/
+│ ├── project-proposal.pdf
+│ ├── erd.drawio
+│ └── erd.png
+├── postman/
+│ └── prepify-api.postman_collection.json
+├── screenshots/
+│ ├── dashboard.png
+│ ├── recipes.png
+│ └── meal-plans.png
+├── README.md
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+---
 
-### Premium Partners
+## 🔐 Authentication
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+| Action                | Auth Required |
+| --------------------- | ------------- |
+| Register              | ❌            |
+| Login                 | ❌            |
+| Logout                | ✅            |
+| View Recipes          | ❌            |
+| Create/Edit Recipes   | ✅            |
+| View Meal Plans       | ❌            |
+| Create/Edit MealPlans | ✅            |
+| Ingredient CRUD       | ❌            |
 
-## Contributing
+---
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+## 📮 API Endpoints
 
-## Code of Conduct
+> Import Postman Collection:
+> [`prepify-api.postman_collection.json`](./postman/prepify-api.postman_collection.json)
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+Example:
 
-## Security Vulnerabilities
+```http
+POST /api/register
+POST /api/login
+GET  /api/recipes
+POST /api/recipes     (requires token)
+```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+# 🔑 To access protected routes, log in via `/api/login` to get a token, then include it in headers:
 
-## License
+Use Bearer Token:
+Authorization: Bearer your_token_here
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+## 🧪 Seeder Data
+
+Run this to create sample data:
+php artisan migrate:fresh --seed
+
+This seeds:
+• Users (5)
+• Recipes (50)
+• Ingredients (at least 100+)
+• Meal Plans with entries and meal types
+
+## 🎛 Admin Panel (Filament)
+
+Access Filament admin panel at:
+http://prepifyAPI/admin
+
+You can manage:
+• Users
+• Recipes
+• Meal Plans
+• Meal Entries
+• Ingredients
+
+## 📸 Screenshots
+
+### Admin Dashboard
+
+![Dashboard](./screenshots/dashboard.png)
+
+### Recipes Management
+
+![Recipes](./screenshots/recipes.png)
+
+### Meal Plans Management
+
+![Meal Plans](./screenshots/meal-plans.png)
+
+### User Management
+
+![User](./screenshots/users.png)
+
+## 📝 Documentation
+
+### Project Proposal
+
+📄 [Project Proposal (DOCX)](./docs/PrepifyAPI%20proposal.docx)
+
+### ERD (draw.io)
+
+![draw.io file](./docs/PrepifyAPI%20erd.drawio)
+![png file](./docs/PrepifyAPI%20erd.png)
+
+## ⚙️ Setup Instructions
+
+git clone https://github.com/your-username/prepify-api.git
+cd prepify-api
+
+composer install
+cp .env.example .env
+php artisan key:generate
+
+# Configure DB in .env (SQLite/MySQL)
+
+php artisan migrate --seed
+
+php artisan serve
+
+# If using Filament
+
+php artisan filament:install --panels
+
+## 👨‍💻 Author
+
+Tommy El Asmar
+Built with Laravel, Filament, and a cup of coffee.
