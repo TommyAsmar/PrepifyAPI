@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\MealPlan;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class MealPlanController extends Controller
 {
@@ -21,18 +22,27 @@ class MealPlanController extends Controller
     public function store(Request $request)
     {
         $attributes = $request->validate([
-            'user_id' => 'required|exists:users,id',
             'title' => 'required|string|max:255',
             'description' => 'nullable|string'
         ]);
 
-        $mealPlan = MealPlan::create($attributes);
+        $mealPlan = MealPlan::create([
+            'user_id' => Auth::id(),
+            'title' => $attributes['title'],
+            'description' => $attributes['description'] ?? null
+        ]);
+
         return response()->json($mealPlan, 201);
     }
 
     public function update(Request $request, $id)
     {
         $mealPlan = MealPlan::findOrFail($id);
+
+        if ($mealPlan->user_id !== Auth::id()) {
+            return response()->json(['message' => 'Unauthorized'], 403);
+        }
+
         $attributes = $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'nullable|string'
@@ -45,6 +55,11 @@ class MealPlanController extends Controller
     public function destroy($id)
     {
         $mealPlan = MealPlan::findOrFail($id);
+
+        if ($mealPlan->user_id !== Auth::id()) {
+            return response()->json(['message' => 'Unauthorized'], 403);
+        }
+
         $mealPlan->delete();
         return response()->json(['message' => 'Meal plan deleted successfully'], 200);
     }
